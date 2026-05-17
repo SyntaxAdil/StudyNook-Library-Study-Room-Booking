@@ -1,7 +1,9 @@
+import HeroBanner from "../sections/Banner";
+
 export default function Home() {
   return (
     <div>
-      <h2>Home Page</h2>
+      <HeroBanner></HeroBanner>
     </div>
   );
 }
