@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
-import { Avatar, Button, Dropdown } from "@heroui/react";
+import { Avatar, Button, Dropdown, Label } from "@heroui/react";
 import Link from "next/link";
 import { FaBookReader } from "react-icons/fa";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
@@ -23,7 +23,7 @@ const Navbar = () => {
   const backgroundColor = useTransform(
     scrollY,
     [0, 80],
-    ["rgba(var(--background-rgb), 0)", "rgba(var(--background-rgb), 0.8)"]
+    ["rgba(var(--background-rgb), 0)", "rgba(var(--background-rgb), 0.8)"],
   );
 
   const handleSignOut = async () => {
@@ -82,40 +82,51 @@ const Navbar = () => {
           </div>
 
           {user ? (
-            <Dropdown placement="bottom-end">
-              <Dropdown.Trigger>
-                <div className="p-0.5 rounded-full border-2 border-accent/30 cursor-pointer hover:border-accent transition-all">
-                  <Avatar
-                    src={user?.image}
-                    name={user?.name?.[0]}
-                    className="w-8 h-8 md:w-9 md:h-9 bg-accent/20"
-                  />
-                </div>
+            <Dropdown>
+              <Dropdown.Trigger className="rounded-full">
+                <Avatar>
+                  <Avatar.Image alt={user?.name} src={user?.image} />
+
+                  <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+                </Avatar>
               </Dropdown.Trigger>
-              <Dropdown.Menu
-                aria-label="User actions"
-                variant="flat"
-                className="bg-surface border border-border"
-              >
-                <Dropdown.Item
-                  key="profile"
-                  className="h-14 gap-2 text-foreground opacity-90"
-                >
-                  <p className="font-semibold text-xs text-muted">
-                    Signed in as
-                  </p>
-                  <p className="font-semibold">{user?.email}</p>
-                </Dropdown.Item>
-                <Dropdown.Item
-                  key="logout"
-                  color="danger"
-                  className="text-danger"
-                  startContent={<FaArrowUpRightFromSquare />}
-                  onClick={handleSignOut}
-                >
-                  Log Out
-                </Dropdown.Item>
-              </Dropdown.Menu>
+
+              <Dropdown.Popover>
+                <div className="px-3 pt-3 pb-1">
+                  <div className="flex items-center gap-2">
+                    <Avatar size="sm">
+                      <Avatar.Image alt={user?.name} src={user?.image} />
+
+                      <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+                    </Avatar>
+
+                    <div className="flex flex-col gap-0">
+                      <p className="text-sm leading-5 font-medium">
+                        {user?.name}
+                      </p>
+
+                      <p className="text-xs leading-none text-muted">
+                        {user?.email}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    id="logout"
+                    textValue="Logout"
+                    variant="danger"
+                    onClick={handleSignOut}
+                  >
+                    <div className="flex w-full items-center justify-between gap-2">
+                      <Label>Log Out</Label>
+
+                      <FaArrowUpRightFromSquare className="size-3.5 text-danger" />
+                    </div>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown.Popover>
             </Dropdown>
           ) : (
             <div className="hidden md:flex items-center gap-3">
@@ -153,8 +164,8 @@ const Navbar = () => {
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
           className="fixed top-0 right-0 h-screen w-full sm:w-80 bg-background/95 backdrop-blur-xl p-8 z-60 shadow-2xl md:hidden border-l border-border"
         >
-          <div className="flex justify-between items-center mb-10">
-            <span className="text-xl font-bold text-foreground">Menu</span>
+          <div className="flex justify-end items-center mb-10">
+            
             <button
               onClick={() => setIsOpen(false)}
               className="p-2 hover:bg-surface rounded-full transition-colors text-foreground"
