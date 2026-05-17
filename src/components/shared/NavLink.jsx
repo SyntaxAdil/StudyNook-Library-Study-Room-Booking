@@ -14,7 +14,7 @@ const NavLink = ({ href, className, children }) => {
       className={`relative py-1 text-sm font-medium transition-colors duration-300 ${
         isActive 
           ? "text-blue-600 dark:text-blue-400" 
-          : "text-default-600 hover:text-blue-600 dark:hover:text-blue-400"
+          : "text-muted hover:text-blue-600 dark:hover:text-blue-400"
       } ${className}`}
     >
       {children}

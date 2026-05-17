@@ -68,7 +68,7 @@ const Navbar = () => {
             <li key={l.href}>
               <NavLink
                 href={l.href}
-                className="text-sm font-medium text-muted hover:text-accent transition-colors"
+                className="text-sm font-medium  hover:text-accent transition-colors"
               >
                 {l.label}
               </NavLink>
