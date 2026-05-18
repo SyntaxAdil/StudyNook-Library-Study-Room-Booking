@@ -12,6 +12,7 @@ import Wrapper from "../shared/Wrapper";
 import toast from "react-hot-toast";
 import { useSession } from "../../lib/auth/auth-client";
 import { EditRoom } from "../modal/EditRoom";
+import { DeleteRoom } from './../modal/DeleteRoom';
 
 const RoomDetailesWrapper = ({ room }) => {
   const { data: session } = useSession();
@@ -161,13 +162,7 @@ const RoomDetailesWrapper = ({ room }) => {
                     <div className="flex items-center justify-end gap-2 border-t pt-4 mt-4">
                      <EditRoom room={room} ></EditRoom>
 
-                      <Button
-                        variant="danger"
-                        className="rounded-full px-5 shadow-md hover:shadow-lg transition-all"
-                      >
-                        <BiTrash className="text-lg" />
-                        <span>Delete</span>
-                      </Button>
+                     <DeleteRoom room={room} />
                     </div>
                   )}
                 </div>
