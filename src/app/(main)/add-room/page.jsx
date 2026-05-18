@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 import { FiLoader, FiPlusCircle } from "react-icons/fi";
 import Wrapper from "../../../components/shared/Wrapper";
 import { useSession } from "../../../lib/auth/auth-client";
-import { router } from "better-auth/api";
 import { useRouter } from "next/navigation";
 
 const AddRoomPage = () => {

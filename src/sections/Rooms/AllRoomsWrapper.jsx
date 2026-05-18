@@ -1,8 +1,10 @@
 "use client";
 import { motion } from "motion/react";
 import RoomCard from "../../components/Rooms/RoomCard";
+import RoomActionSidebar from './../../components/Rooms/RoomActionSidebar';
 
 const AllRoomsWrapper = ({ allRooms }) => {
+  
   return (
     <div>
       {/* headers */}
@@ -21,7 +23,7 @@ const AllRoomsWrapper = ({ allRooms }) => {
 
       <section className="grid grid-cols-1 md:grid-cols-12 gap-4 h-full">
         <div className="col-span-3">
-            RoomActionSidebar
+            <RoomActionSidebar/>
         </div>
         <div className="col-span-9">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

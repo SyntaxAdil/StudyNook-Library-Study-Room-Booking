@@ -12,7 +12,8 @@ export const ThemeSwitch = () => {
     setTimeout(() => {
       setMounted(true);
     }, 0);
-  }, []);1
+  }, []);
+  1;
 
   if (!mounted) {
     return <div className="p-2 w-9 h-9" />;
@@ -21,13 +22,16 @@ export const ThemeSwitch = () => {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-lg transition-colors cursor-pointer"
+      className="relative p-3 rounded-full transition-all duration-300 ease-in-out
+  bg-slate-100 dark:bg-slate-900  active:scale-95 cursor-pointer"
     >
-      {theme === "dark" ? (
-        <FaMoon className="text-slate-700" />
-      ) : (
-        <FaSun className="text-amber-500" />
-      )}
+      <div className="transition-transform duration-500">
+        {theme === "dark" ? (
+          <FaMoon className="text-slate-200 text-lg" />
+        ) : (
+          <FaSun className="text-yellow-500 text-lg animate-pulse" />
+        )}
+      </div>
     </button>
   );
 };
