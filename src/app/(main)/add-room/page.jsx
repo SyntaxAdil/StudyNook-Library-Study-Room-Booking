@@ -30,7 +30,11 @@ const AddRoomPage = () => {
 
     roomData.amenities = selectedAmenities;
     roomData.userId = user.id;
+    roomData.userName = user.name;
+    roomData.userEmail = user.email;
+    roomData.userImage = user.image;
     roomData.createdAt=new Date();
+
 
     setIsPending(true);
     try {

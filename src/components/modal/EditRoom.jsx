@@ -20,11 +20,13 @@ import { BiEdit } from "react-icons/bi";
 import { FiLoader, FiSave } from "react-icons/fi";
 
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export function EditRoom({ room }) {
+    const router=useRouter()
+    const [isOpen,setIsOpen]=useState(false)
   const [isPending, setIsPending] = useState(false);
 
-  // Form state for controlled inputs
   const [formData, setFormData] = useState({
     roomName: room?.roomName || "",
     description: room?.description || "",
@@ -91,6 +93,7 @@ export function EditRoom({ room }) {
 
       if (data.success) {
         toast.success("Room updated successfully!");
+        router.refresh()
       } else {
         toast.error("Failed to update room");
       }
@@ -101,11 +104,12 @@ export function EditRoom({ room }) {
       toast.error("Something went wrong");
     } finally {
       setIsPending(false);
+      setIsOpen(false)
     }
   };
 
   return (
-    <Modal>
+    <Modal isOpen={isOpen} onOpenChange={setIsOpen}  >
       {/* trigger button */}
       <Button
         variant="ghost"
@@ -117,10 +121,8 @@ export function EditRoom({ room }) {
 
       <Modal.Backdrop>
 
-        {/* container */}
         <Modal.Container placement="center">
-
-          {/* dialog */}
+         
           <Modal.Dialog className="w-full max-w-5xl rounded-3xl overflow-hidden p-0">
 
             <Modal.CloseTrigger />
@@ -137,7 +139,7 @@ export function EditRoom({ room }) {
                     alt={room?.roomName}
                     fill
                     priority
-                    className="object-cover"
+                    className="object-cover h-100"
                   />
 
                   {/* overlay */}

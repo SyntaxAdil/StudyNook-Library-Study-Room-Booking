@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { FaSun, FaMoon } from "react-icons/fa";
+import { LuSun } from "react-icons/lu";
+import { FiMoon } from "react-icons/fi";
 
 export const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false);
@@ -27,9 +28,9 @@ export const ThemeSwitch = () => {
     >
       <div className="transition-transform duration-500">
         {theme === "dark" ? (
-          <FaMoon className="text-slate-200 text-lg" />
+          <FiMoon className="text-slate-200 text-lg" />
         ) : (
-          <FaSun className="text-yellow-500 text-lg animate-pulse" />
+          <LuSun  className="text-yellow-500 text-lg animate-pulse" />
         )}
       </div>
     </button>

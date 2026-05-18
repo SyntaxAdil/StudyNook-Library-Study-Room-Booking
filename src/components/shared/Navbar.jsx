@@ -87,7 +87,7 @@ const Navbar = () => {
                 <Avatar>
                   <Avatar.Image alt={user?.name} src={user?.image} />
 
-                  <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+                  <Avatar.Fallback>{user?.name.split(" ").slice(0,2).map(i=>i[0].toUpperCase())}</Avatar.Fallback>
                 </Avatar>
               </Dropdown.Trigger>
 
@@ -97,7 +97,7 @@ const Navbar = () => {
                     <Avatar size="sm">
                       <Avatar.Image alt={user?.name} src={user?.image} />
 
-                      <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
+                      <Avatar.Fallback>{user?.name.split(" ").slice(0,2).map(i=>i[0].toUpperCase())}</Avatar.Fallback>
                     </Avatar>
 
                     <div className="flex flex-col gap-0">
@@ -139,7 +139,7 @@ const Navbar = () => {
                   Login
                 </Button>
               </Link>
-              <Link href="/login">
+              <Link href="/register">
                 <Button
                   className="bg-accent text-accent-foreground shadow-lg shadow-accent/20 font-semibold"
                   size="sm"
@@ -165,7 +165,6 @@ const Navbar = () => {
           className="fixed top-0 right-0 h-screen w-full sm:w-80 bg-background/95 backdrop-blur-xl p-8 z-60 shadow-2xl md:hidden border-l border-border"
         >
           <div className="flex justify-end items-center mb-10">
-            
             <button
               onClick={() => setIsOpen(false)}
               className="p-2 hover:bg-surface rounded-full transition-colors text-foreground"
@@ -188,21 +187,25 @@ const Navbar = () => {
 
             {!user && (
               <div className="flex flex-col gap-4 mt-8">
-                <Button
-                  className="bg-accent text-accent-foreground font-bold"
-                  fullWidth
-                  size="lg"
-                >
-                  Join Now
-                </Button>
-                <Button
-                  variant="bordered"
-                  fullWidth
-                  size="lg"
-                  className="border-border text-foreground font-bold"
-                >
-                  Login
-                </Button>
+                <Link href={"/register"}>
+                  <Button
+                    className="bg-accent text-accent-foreground font-bold"
+                    fullWidth
+                    size="lg"
+                  >
+                    Join Now
+                  </Button>
+                </Link>
+                <Link href={"/login"}>
+                  <Button
+                    variant="bordered"
+                    fullWidth
+                    size="lg"
+                    className="border-border text-foreground font-bold"
+                  >
+                    Login
+                  </Button>
+                </Link>
               </div>
             )}
           </ul>

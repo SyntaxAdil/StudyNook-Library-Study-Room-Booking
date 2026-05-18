@@ -1,10 +1,9 @@
 "use client";
 import { motion } from "motion/react";
 import RoomCard from "../../components/Rooms/RoomCard";
-import RoomActionSidebar from './../../components/Rooms/RoomActionSidebar';
+import RoomActionSidebar from "./../../components/Rooms/RoomActionSidebar";
 
 const AllRoomsWrapper = ({ allRooms }) => {
-  
   return (
     <div>
       {/* headers */}
@@ -21,12 +20,15 @@ const AllRoomsWrapper = ({ allRooms }) => {
         </p>
       </motion.header>
 
-      <section className="grid grid-cols-1 md:grid-cols-12 gap-4 h-full">
-        <div className="col-span-3">
-            <RoomActionSidebar/>
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        {/* Sidebar */}
+        <div className="lg:col-span-3">
+          <RoomActionSidebar />
         </div>
-        <div className="col-span-9">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        {/* Rooms */}
+        <div className="lg:col-span-9">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {allRooms?.map((room) => (
               <RoomCard key={room._id} room={room} />
             ))}
