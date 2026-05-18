@@ -12,7 +12,7 @@ import Wrapper from "../shared/Wrapper";
 import toast from "react-hot-toast";
 import { useSession } from "../../lib/auth/auth-client";
 import { EditRoom } from "../modal/EditRoom";
-import { DeleteRoom } from './../modal/DeleteRoom';
+import { DeleteRoom } from "./../modal/DeleteRoom";
 
 const RoomDetailesWrapper = ({ room }) => {
   const { data: session } = useSession();
@@ -151,18 +151,29 @@ const RoomDetailesWrapper = ({ room }) => {
                   </div>
 
                   {/* book now  */}
-                  <Button
-                    onClick={handelBooking}
-                    className="w-full h-14 bg-accent text-accent-foreground font-black text-base rounded-2xl shadow-lg shadow-accent/20 hover:opacity-95 active:scale-[0.98] transition-all"
-                  >
-                    Book This Space
-                  </Button>
+
+                  {user ? (
+                    <Button
+                      onClick={handelBooking}
+                      className="w-full h-14 bg-accent text-accent-foreground font-black text-base rounded-2xl shadow-lg shadow-accent/20 hover:opacity-95 active:scale-[0.98] transition-all"
+                    >
+                      Book This Space
+                    </Button>
+                  ) : (
+                    <Link
+                      href={"/logim"}
+                      className="w-full h-14 bg-accent text-accent-foreground font-black text-base rounded-2xl shadow-lg shadow-accent/20 hover:opacity-95 active:scale-[0.98] transition-all"
+                    >
+                      Book This Space
+                    </Link>
+                  )}
+
                   {/* ? edit and delete */}
                   {isOwner && (
                     <div className="flex items-center justify-end gap-2 border-t pt-4 mt-4">
-                     <EditRoom room={room} ></EditRoom>
+                      <EditRoom room={room}></EditRoom>
 
-                     <DeleteRoom room={room} />
+                      <DeleteRoom room={room} />
                     </div>
                   )}
                 </div>

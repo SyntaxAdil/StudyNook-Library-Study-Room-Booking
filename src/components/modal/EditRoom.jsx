@@ -23,8 +23,8 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 export function EditRoom({ room }) {
-    const router=useRouter()
-    const [isOpen,setIsOpen]=useState(false)
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -38,7 +38,7 @@ export function EditRoom({ room }) {
 
   // default amenities
   const [selectedAmenities, setSelectedAmenities] = useState(
-    room?.amenities || []
+    room?.amenities || [],
   );
 
   // amenities list
@@ -54,9 +54,9 @@ export function EditRoom({ room }) {
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -78,38 +78,34 @@ export function EditRoom({ room }) {
     setIsPending(true);
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/rooms`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedRoom),
-        }
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/rooms`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedRoom),
+      });
 
       const data = await res.json();
 
       if (data.success) {
         toast.success("Room updated successfully!");
-        router.refresh()
+        router.refresh();
       } else {
         toast.error("Failed to update room");
       }
-
     } catch (error) {
       console.log(error);
 
       toast.error("Something went wrong");
     } finally {
       setIsPending(false);
-      setIsOpen(false)
+      setIsOpen(false);
     }
   };
 
   return (
-    <Modal isOpen={isOpen} onOpenChange={setIsOpen}  >
+    <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
       {/* trigger button */}
       <Button
         variant="ghost"
@@ -120,20 +116,14 @@ export function EditRoom({ room }) {
       </Button>
 
       <Modal.Backdrop>
-
         <Modal.Container placement="center">
-         
           <Modal.Dialog className="w-full max-w-5xl rounded-3xl overflow-hidden p-0">
-
             <Modal.CloseTrigger />
 
             <Modal.Body className="p-0">
-
               <div className="grid lg:grid-cols-2 min-h-[650px]">
-
                 {/* left side image */}
                 <div className="hidden lg:block relative overflow-hidden">
-
                   <Image
                     src={room?.imageUrl}
                     alt={room?.roomName}
@@ -147,45 +137,36 @@ export function EditRoom({ room }) {
 
                   {/* text */}
                   <div className="absolute bottom-10 left-8 z-10 text-white">
-
                     <h2 className="text-4xl font-black leading-tight">
                       {room?.roomName}
                     </h2>
 
                     <p className="mt-3 text-white/80 max-w-sm leading-relaxed">
-                      Update your room information, pricing,
-                      and amenities with a clean modern interface.
+                      Update your room information, pricing, and amenities with
+                      a clean modern interface.
                     </p>
-
                   </div>
                 </div>
 
                 {/* form section */}
                 <div className="overflow-y-auto max-h-[90vh] p-6 md:p-8">
-
                   {/* heading mobile */}
                   <div className="lg:hidden mb-6">
-
-                    <h2 className="text-3xl font-black">
-                      Edit Room
-                    </h2>
+                    <h2 className="text-3xl font-black">Edit Room</h2>
 
                     <p className="text-muted mt-2 text-sm">
                       Update your room details and amenities.
                     </p>
-
                   </div>
 
                   <Surface
                     variant="default"
                     className="border border-border rounded-3xl p-5"
                   >
-
                     <Form
                       onSubmit={handleUpdate}
                       className="grid grid-cols-1 gap-5"
                     >
-
                       {/* room name */}
                       <div className="flex flex-col gap-2">
                         <Label>Room Name</Label>
@@ -224,7 +205,6 @@ export function EditRoom({ room }) {
 
                       {/* grid fields */}
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-
                         {/* floor */}
                         <div className="flex flex-col gap-2">
                           <Label>Floor</Label>
@@ -264,6 +244,36 @@ export function EditRoom({ room }) {
                           />
                         </div>
 
+                        <div className="flex flex-col gap-2 col-span-3 ">
+                          <Label className="text-sm font-semibold mb-1">
+                            Amenities
+                          </Label>
+                          <CheckboxGroup
+                            orientation="horizontal"
+                            value={selectedAmenities}
+                            onChange={setSelectedAmenities}
+                            className="grid grid-cols-2 md:grid-cols-2 gap-2 "
+                          >
+                            {amenitiesList.map((item) => (
+                              <Checkbox
+                                key={item.id}
+                                value={item.id}
+                                color="primary"
+                                className=" m-0 p-4 bg-field-background border border-border rounded-xl flex items-center gap-3 data-[selected=true]:border-primary hover:bg-default-100 transition-colors cursor-pointer "
+                              >
+                                <Checkbox.Control>
+                                  <Checkbox.Indicator />
+                                </Checkbox.Control>
+                                <Checkbox.Content>
+                                  <Label className="text-foreground font-medium text-sm cursor-pointer">
+                                    {item.label}
+                                  </Label>
+                                </Checkbox.Content>
+                              </Checkbox>
+                            ))}
+                          </CheckboxGroup>
+                          
+                        </div>
                       </div>
 
                       {/* Submit Button */}
@@ -284,21 +294,13 @@ export function EditRoom({ room }) {
                           </>
                         )}
                       </Button>
-
                     </Form>
-
                   </Surface>
-
                 </div>
-
               </div>
-
             </Modal.Body>
-
           </Modal.Dialog>
-
         </Modal.Container>
-
       </Modal.Backdrop>
     </Modal>
   );

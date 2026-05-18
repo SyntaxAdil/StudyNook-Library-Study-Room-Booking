@@ -1,303 +1,165 @@
 "use client";
 
-import React, { useState } from "react";
-
-import Image from "next/image";
-
 import {
   Button,
-  Checkbox,
-  CheckboxGroup,
+  Description,
+  FieldError,
   Form,
   Input,
   Label,
-  Modal,
-  Surface,
+  Separator,
   TextField,
 } from "@heroui/react";
-
-import { BiEdit } from "react-icons/bi";
-import { FiLoader, FiSave } from "react-icons/fi";
-
+import { motion } from "motion/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { FaBookReader } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa6";
+import { FiLoader } from "react-icons/fi";
+import { authClient, signInGoogle } from "../../../lib/auth/auth-client";
+import { HiOutlineLogin } from "react-icons/hi";
 
-export function EditRoom({ room }) {
+const Login = () => {
+  const router = useRouter();
   const [isPending, setIsPending] = useState(false);
 
-  // Form state for controlled inputs
-  const [formData, setFormData] = useState({
-    roomName: room?.roomName || "",
-    description: room?.description || "",
-    imageUrl: room?.imageUrl || "",
-    floor: room?.floor?.toString() || "",
-    capacity: room?.capacity?.toString() || "",
-    hourlyRate: room?.hourlyRate?.toString() || "",
-  });
-
-  // default amenities
-  const [selectedAmenities, setSelectedAmenities] = useState(
-    room?.amenities || []
-  );
-
-  // amenities list
-  const amenitiesList = [
-    { id: "whiteboard", label: "Whiteboard" },
-    { id: "projector", label: "Projector" },
-    { id: "wifi", label: "Wi-Fi" },
-    { id: "power_outlets", label: "Power Outlets" },
-    { id: "quiet_zone", label: "Quiet Zone" },
-    { id: "ac", label: "Air Conditioning" },
-  ];
-
-  // Handle input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  // update room
-  const handleUpdate = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-
-    const updatedRoom = {
-      _id: room?._id,
-      roomName: formData.roomName,
-      description: formData.description,
-      imageUrl: formData.imageUrl,
-      floor: Number(formData.floor),
-      capacity: Number(formData.capacity),
-      hourlyRate: Number(formData.hourlyRate),
-      amenities: selectedAmenities,
-    };
-
+    const formdata = new FormData(e.target);
+    const { email, password } = Object.fromEntries(formdata.entries());
     setIsPending(true);
-
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/rooms`,
+      await authClient.signIn.email(
+        { email, password, callbackURL: "/" },
         {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
+          onSuccess: () => {
+            toast.success("Login Successful");
+            router.push("/");
           },
-          body: JSON.stringify(updatedRoom),
+          onError: (ctx) => {
+            toast.error(ctx.error.message || "Login Failed");
+          },
         }
       );
-
-      const data = await res.json();
-
-      if (data.success) {
-        toast.success("Room updated successfully!");
-      } else {
-        toast.error("Failed to update room");
-      }
-
-    } catch (error) {
-      console.log(error);
-
-      toast.error("Something went wrong");
     } finally {
       setIsPending(false);
     }
   };
 
+  const handleGoogle = async () => {
+    try {
+      await signInGoogle();
+      toast.success("Login successful with Google");
+      setTimeout(() => router.push("/"), 1000);
+    } catch (error) {
+      toast.error("Login failed.");
+    }
+  };
+
   return (
-    <Modal>
-      {/* trigger button */}
-      <Button
-        variant="ghost"
-        className="rounded-full border border-default-200 px-5 hover:bg-default-100 transition-all"
+    <div className="min-h-screen flex items-center justify-center bg-background text-foreground px-4 transition-colors duration-500">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-md "
       >
-        <BiEdit className="text-lg" />
-        <span>Edit</span>
-      </Button>
+        <div className="bg-surface p-8 rounded-2xl shadow-surface-shadow border border-border backdrop-blur-md">
+          {/* Logo & Header */}
+          <div className="text-center mb-8">
+            <motion.div 
+              whileHover={{ rotate: 5 }}
+              className="inline-flex items-center justify-center w-14 h-14 bg-accent rounded-xl text-accent-foreground mb-4 shadow-lg"
+            >
+              <FaBookReader size={28} />
+            </motion.div>
+            <h3 className="text-2xl font-bold tracking-tight">Login to StudyNook</h3>
+            <p className="text-muted text-sm mt-2">Welcome back. Pick up where you left off.</p>
+          </div>
 
-      <Modal.Backdrop>
+          <Form className="flex flex-col gap-6" onSubmit={onSubmit}>
+            {/* Email Field */}
+            <TextField
+              isRequired
+              name="email"
+              type="email"
+              validate={(v) => !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(v) ? "Invalid email" : null}
+            >
+              <Label className="text-sm font-semibold mb-1 block">Email Address</Label>
+              <Input 
+                placeholder="adil@example.com" 
+                className="bg-field-background text-field-foreground border-field-border focus:ring-2 ring-focus"
+              />
+              <FieldError className="text-danger text-xs mt-1" />
+            </TextField>
 
-        {/* container */}
-        <Modal.Container placement="center">
+            {/* Password Field */}
+            <TextField
+              isRequired
+              minLength={8}
+              name="password"
+              type="password"
+              validate={(v) => v.length < 8 ? "Too short" : null}
+            >
+              <Label className="text-sm font-semibold mb-1 block">Password</Label>
+              <Input 
+                placeholder="••••••••" 
+                className="bg-field-background text-field-foreground"
+              />
+              <Description className="text-[10px] text-muted leading-relaxed">
+                8+ characters, 1 uppercase, 1 number
+              </Description>
+              <FieldError className="text-danger text-xs mt-1" />
+            </TextField>
 
-          {/* dialog */}
-          <Modal.Dialog className="w-full max-w-5xl rounded-3xl overflow-hidden p-0">
-
-            <Modal.CloseTrigger />
-
-            <Modal.Body className="p-0">
-
-              <div className="grid lg:grid-cols-2 min-h-[650px]">
-
-                {/* left side image */}
-                <div className="hidden lg:block relative overflow-hidden">
-
-                  <Image
-                    src={room?.imageUrl}
-                    alt={room?.roomName}
-                    fill
-                    priority
-                    className="object-cover"
-                  />
-
-                  {/* overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-
-                  {/* text */}
-                  <div className="absolute bottom-10 left-8 z-10 text-white">
-
-                    <h2 className="text-4xl font-black leading-tight">
-                      {room?.roomName}
-                    </h2>
-
-                    <p className="mt-3 text-white/80 max-w-sm leading-relaxed">
-                      Update your room information, pricing,
-                      and amenities with a clean modern interface.
-                    </p>
-
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-4">
+              <Button 
+                type="submit" 
+                className="w-full h-12 bg-accent text-accent-foreground font-bold rounded-[var(--radius)] shadow-md hover:opacity-90 transition-all"
+                isDisabled={isPending}
+              >
+                {isPending ? (
+                  <FiLoader className="animate-spin text-xl" />
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <HiOutlineLogin size={20} />
+                    <span>Log In</span>
                   </div>
-                </div>
+                )}
+              </Button>
 
-                {/* form section */}
-                <div className="overflow-y-auto max-h-[90vh] p-6 md:p-8">
-
-                  {/* heading mobile */}
-                  <div className="lg:hidden mb-6">
-
-                    <h2 className="text-3xl font-black">
-                      Edit Room
-                    </h2>
-
-                    <p className="text-muted mt-2 text-sm">
-                      Update your room details and amenities.
-                    </p>
-
-                  </div>
-
-                  <Surface
-                    variant="default"
-                    className="border border-border rounded-3xl p-5"
-                  >
-
-                    <Form
-                      onSubmit={handleUpdate}
-                      className="grid grid-cols-1 gap-5"
-                    >
-
-                      {/* room name */}
-                      <div className="flex flex-col gap-2">
-                        <Label>Room Name</Label>
-
-                        <Input
-                          name="roomName"
-                          value={formData.roomName}
-                          onChange={handleInputChange}
-                          placeholder="Room name"
-                        />
-                      </div>
-
-                      {/* description */}
-                      <div className="flex flex-col gap-2">
-                        <Label>Description</Label>
-
-                        <Input
-                          name="description"
-                          value={formData.description}
-                          onChange={handleInputChange}
-                          placeholder="Description"
-                        />
-                      </div>
-
-                      {/* image url */}
-                      <div className="flex flex-col gap-2">
-                        <Label>Image URL</Label>
-
-                        <Input
-                          name="imageUrl"
-                          value={formData.imageUrl}
-                          onChange={handleInputChange}
-                          placeholder="https://..."
-                        />
-                      </div>
-
-                      {/* grid fields */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-
-                        {/* floor */}
-                        <div className="flex flex-col gap-2">
-                          <Label>Floor</Label>
-
-                          <Input
-                            name="floor"
-                            type="number"
-                            value={formData.floor}
-                            onChange={handleInputChange}
-                            placeholder="Floor"
-                          />
-                        </div>
-
-                        {/* capacity */}
-                        <div className="flex flex-col gap-2">
-                          <Label>Capacity</Label>
-
-                          <Input
-                            name="capacity"
-                            type="number"
-                            value={formData.capacity}
-                            onChange={handleInputChange}
-                            placeholder="Capacity"
-                          />
-                        </div>
-
-                        {/* hourly rate */}
-                        <div className="flex flex-col gap-2">
-                          <Label>Hourly Rate</Label>
-
-                          <Input
-                            name="hourlyRate"
-                            type="number"
-                            value={formData.hourlyRate}
-                            onChange={handleInputChange}
-                            placeholder="Rate"
-                          />
-                        </div>
-
-                      </div>
-
-                      {/* Submit Button */}
-                      <Button
-                        type="submit"
-                        disabled={isPending}
-                        className="mt-4"
-                      >
-                        {isPending ? (
-                          <>
-                            <FiLoader className="animate-spin" />
-                            Updating...
-                          </>
-                        ) : (
-                          <>
-                            <FiSave />
-                            Update Room
-                          </>
-                        )}
-                      </Button>
-
-                    </Form>
-
-                  </Surface>
-
-                </div>
-
+              <div className="flex items-center gap-3">
+                <Separator className="flex-1 bg-separator" />
+                <span className="text-[10px] font-black text-muted uppercase tracking-tighter">OR</span>
+                <Separator className="flex-1 bg-separator" />
               </div>
 
-            </Modal.Body>
+              <Button
+                onClick={handleGoogle}
+                type="button"
+                variant="bordered"
+                className="w-full h-12 border-border hover:bg-default text-foreground font-medium rounded-[var(--radius)]"
+              >
+                <FaGoogle className="text-blue-500" />
+                Continue with Google
+              </Button>
+            </div>
 
-          </Modal.Dialog>
-
-        </Modal.Container>
-
-      </Modal.Backdrop>
-    </Modal>
+            {/* Footer Link */}
+            <p className="text-center text-sm text-muted mt-2">
+              New here?{" "}
+              <Link className="font-bold text-link hover:underline underline-offset-4" href={"/register"}>
+                Create an Account
+              </Link>
+            </p>
+          </Form>
+        </div>
+      </motion.div>
+    </div>
   );
-}
+};
+
+export default Login;
