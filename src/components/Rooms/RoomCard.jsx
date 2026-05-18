@@ -3,6 +3,7 @@ import { Card, Chip, Button } from "@heroui/react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+import { BiDollar } from "react-icons/bi";
 import { LuLayers, LuUsers } from "react-icons/lu";
 
 const RoomCard = ({ room }) => {
@@ -57,6 +58,12 @@ const RoomCard = ({ room }) => {
             <div className="flex items-center gap-2">
               <LuUsers className="text-base text-foreground/70" />
               <span>{room?.capacity} people</span>
+            </div>
+            <div className="w-px h-4 bg-border/60" />
+
+            <div className="flex items-center gap-2">
+              <BiDollar className="text-base text-foreground/70" />
+              <span>8 bookings</span>
             </div>
           </div>
 

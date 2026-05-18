@@ -31,6 +31,7 @@ const AddRoomPage = () => {
 
     roomData.amenities = selectedAmenities;
     roomData.userId = user.id;
+    roomData.createdAt=new Date();
 
     setIsPending(true);
     try {
