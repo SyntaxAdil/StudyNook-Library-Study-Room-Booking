@@ -3,9 +3,10 @@
 import React from "react";
 import { Button } from "@heroui/react";
 import { motion } from "motion/react";
-import Link from "next/link";
+
 import { FaArrowRight, FaSearch } from "react-icons/fa";
 import Image from "next/image";
+import Link from "next/link";
 
 const HeroBanner = () => {
   return (

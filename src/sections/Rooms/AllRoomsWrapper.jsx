@@ -1,9 +1,5 @@
 "use client";
-import { Button, Card, Chip } from "@heroui/react";
 import { motion } from "motion/react";
-import Image from "next/image";
-import Link from "next/link";
-import { LuDollarSign, LuLayers, LuUsers } from "react-icons/lu";
 import RoomCard from "../../components/Rooms/RoomCard";
 
 const AllRoomsWrapper = ({ allRooms }) => {
@@ -24,11 +20,13 @@ const AllRoomsWrapper = ({ allRooms }) => {
       </motion.header>
 
       <section className="grid grid-cols-1 md:grid-cols-12 gap-4 h-full">
-        <div className="col-span-3"></div>
+        <div className="col-span-3">
+            RoomActionSidebar
+        </div>
         <div className="col-span-9">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {allRooms?.map((room) => (
-             <RoomCard key={room._id} room={room} />
+              <RoomCard key={room._id} room={room} />
             ))}
           </div>
         </div>
