@@ -89,9 +89,8 @@ const RoomCard = ({ room }) => {
         </div>
 
         <div className="pt-2">
-          <Link href={`/room/${room._id}`}>
+          <Link href={`/room-detailes/${room._id}`}>
             <Button
-              href={`/room/${room._id}`}
               className="w-full h-11 bg-accent text-accent-foreground font-bold rounded-xl shadow-md hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-1"
             >
               <span>View Details</span>
