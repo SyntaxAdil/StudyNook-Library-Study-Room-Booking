@@ -4,6 +4,7 @@ import {
   Button,
   Checkbox,
   CheckboxGroup,
+  Input,
   Label,
   SearchField,
   Surface,
@@ -28,6 +29,8 @@ const RoomActionSidebar = () => {
   ];
 
   const [query, setQuery] = useState("");
+  const [min, setMin] = useState("");
+  const [max, setMax] = useState("");
   const [amenities, setAmenities] = useState([]);
 
   useEffect(() => {
@@ -35,30 +38,42 @@ const RoomActionSidebar = () => {
 
     if (query) {
       params.set("search", query.trim());
-    }else{
-      params.delete("search")
+    } else {
+      params.delete("search");
     }
     if (amenities.length > 0) {
       params.set("amenities", amenities.join(","));
-    }else{
-      params.delete("amenities")
+    } else {
+      params.delete("amenities");
+    }
+    if (max) {
+      params.set("max", Number(max));
+    } else {
+      params.delete("max");
+    }
+    if (min) {
+      params.set("min", Number(min));
+    } else {
+      params.delete("min");
     }
 
     router.push(`/rooms?${params.toString()}`);
-  }, [query, amenities]);
+  }, [query, amenities,max,min]);
 
-  const reset=()=>{
-    router.push("/rooms")
-    setQuery("")
-    setAmenities([])
-  }
+  const reset = () => {
+    router.push("/rooms");
+    setQuery("");
+    setMax("")
+    setMin("")
+    setAmenities([]);
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
-      className="border px-4  h-full rounded-xl "
+      className="border px-4  h-full rounded-xl pb-18  "
     >
       <div className="flex items-center justify-between my-4">
         <h4 className="text-xl font-semibold ">Refine</h4>
@@ -82,7 +97,7 @@ const RoomActionSidebar = () => {
       </SearchField>
 
       {/* checkbox for Amenities */}
-      <Surface className="w-full mt-4 rounded-3xl p-6">
+      <Surface className="w-full mt-4 rounded-2xl p-6">
         <CheckboxGroup
           name="amenities"
           variant="secondary"
@@ -102,6 +117,32 @@ const RoomActionSidebar = () => {
           ))}
         </CheckboxGroup>
       </Surface>
+
+      <div className="mt-4">
+        <Label>Hourly rate ($)</Label>
+        <div className="grid grid-cols-2 gap-2 mt-2">
+          <div className="flex flex-col gap-1">
+            <Input
+              min={0}
+              value={min}
+              onChange={(e) => setMin(e.target.value)}
+              placeholder="Min"
+              type="number"
+              className={"rounded-md"}
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <Input
+              min={0}
+              value={max}
+              onChange={(e) => setMax(e.target.value)}
+              placeholder="Max"
+              type="number"
+              className={"rounded-md"}
+            />
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 };
