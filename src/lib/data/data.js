@@ -41,3 +41,13 @@ export const getBookingData = async (id) => {
   const data = await res.json();
   return data.data;
 };
+
+
+// get listing data by user id
+
+export const getListingRooms = async (id) => {
+  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/my-listing/" + id);
+  
+  const data = await res.json();
+  return data.data;
+};

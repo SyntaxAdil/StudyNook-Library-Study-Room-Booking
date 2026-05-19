@@ -16,7 +16,7 @@ const FeaturedRoom = ({ feautredRooms }) => {
           transition={{ duration: 0.5 }}
       className="flex items-center justify-between my-16 flex-col md:flex-row gap-8">
         <div className="px-2">
-          <h2 className="text-4xl font-black mb-4 text-foreground italic tracking-tight ">
+          <h2 className="text-4xl font-black mb-4 text-foreground  tracking-tight ">
             Available Study Rooms
           </h2>
           <p className="text-muted text-lg">
