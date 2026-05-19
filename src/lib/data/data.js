@@ -9,28 +9,26 @@ export const getAllRooms = async (search, amenities, max, min) => {
   const data = await res.json();
   return data.data;
 };
-// featured 
+// featured
 export const getFeauturedRooms = async () => {
-  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/feautred-rooms", {
+  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/featured-rooms", {
     cache: "no-store",
   });
   const data = await res.json();
+  console.log(data, "data");
   return data.data;
 };
 // by id
 export const getRoomsById = async (id) => {
-  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/rooms/"+id);
-  const data = await res.json();
-  return data.data[0];
-};
-
-
-// get user data
-
-
-export const getUserById = async (id) => {
-  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/users/"+id);
+  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/rooms/" + id);
   const data = await res.json();
   return data.data;
 };
 
+// get user data
+
+export const getUserById = async (id) => {
+  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/users/" + id);
+  const data = await res.json();
+  return data.data;
+};

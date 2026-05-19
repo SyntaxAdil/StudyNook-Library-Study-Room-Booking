@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import { useSession } from "../../lib/auth/auth-client";
 import { EditRoom } from "../modal/EditRoom";
 import { DeleteRoom } from "./../modal/DeleteRoom";
+import { BookingModal } from "../modal/BookingModal";
 
 const RoomDetailesWrapper = ({ room }) => {
   const { data: session } = useSession();
@@ -23,9 +24,6 @@ const RoomDetailesWrapper = ({ room }) => {
     ?.split(" ")
     .slice(0, 2)
     .map((i) => i[0].toUpperCase());
-  const handelBooking = async () => {
-    toast.success("Hello");
-  };
 
   return (
     <div className="min-h-screen bg-background text-foreground py-8 transition-colors duration-500">
@@ -153,12 +151,7 @@ const RoomDetailesWrapper = ({ room }) => {
                   {/* book now  */}
 
                   {user ? (
-                    <Button
-                      onClick={handelBooking}
-                      className="w-full h-14 bg-accent text-accent-foreground font-black text-base rounded-2xl shadow-lg shadow-accent/20 hover:opacity-95 active:scale-[0.98] transition-all"
-                    >
-                      Book This Space
-                    </Button>
+                    <BookingModal  room={room} />
                   ) : (
                     <Link
                       href={"/logim"}

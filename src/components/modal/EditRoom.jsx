@@ -65,7 +65,6 @@ export function EditRoom({ room }) {
     e.preventDefault();
 
     const updatedRoom = {
-      _id: room?._id,
       roomName: formData.roomName,
       description: formData.description,
       imageUrl: formData.imageUrl,
@@ -78,7 +77,7 @@ export function EditRoom({ room }) {
     setIsPending(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/rooms`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/rooms/${room?._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
