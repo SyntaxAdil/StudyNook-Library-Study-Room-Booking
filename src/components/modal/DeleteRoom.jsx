@@ -15,7 +15,7 @@ export function DeleteRoom({ room }) {
     setIsDeleting(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/rooms`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/rooms/${room?._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
