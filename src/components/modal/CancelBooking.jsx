@@ -9,7 +9,7 @@ import { FiLoader } from "react-icons/fi";
 
 export function CancelBooking({ data }) {
   const router = useRouter();
-  
+
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleCancelBooking = async () => {
@@ -20,6 +20,13 @@ export function CancelBooking({ data }) {
         `${process.env.NEXT_PUBLIC_URL}/book-room/${data._id}/cancel`,
         {
           method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            bookedBy: data.bookedBy,
+            roomId: data.roomId,
+          }),
         },
       );
 

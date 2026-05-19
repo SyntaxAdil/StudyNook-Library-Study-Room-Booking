@@ -2,20 +2,13 @@
 
 import Wrapper from "./../shared/Wrapper";
 import { motion } from "motion/react";
-import {
-  Button,
-  Chip,
-  Table,
-  Avatar,
-  Surface,
-} from "@heroui/react";
+import { Chip, Table, Button, Surface } from "@heroui/react";
 import Image from "next/image";
 import { CancelBooking } from "../modal/CancelBooking";
 
 const MyBookingWrapper = ({ data }) => {
-    
   return (
-    <div className="py-8 md:py-12">
+    <div className="py-8 ">
       <Wrapper>
         {/* header */}
         <motion.header
@@ -35,30 +28,42 @@ const MyBookingWrapper = ({ data }) => {
 
         {/* empty state */}
         {data?.length === 0 ? (
-          <Surface className="rounded-3xl border border-default-200 p-10 text-center">
-            <div className="flex flex-col items-center justify-center gap-4">
-              <div className="size-16 rounded-full bg-default-100 flex items-center justify-center text-3xl">
-                📚
-              </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Surface className="rounded-3xl border border-default-200 p-10 text-center">
+              <div className="flex flex-col items-center justify-center gap-4">
+                <div className="size-16 rounded-full bg-default-100 flex items-center justify-center text-3xl">
+                  📚
+                </div>
 
-              <div>
-                <h3 className="text-xl font-bold">No bookings yet</h3>
-                <p className="text-muted mt-1">
-                  You haven’t booked any study room yet.
-                </p>
+                <div>
+                  <h3 className="text-xl font-bold">No bookings yet</h3>
+
+                  <p className="text-muted mt-1">
+                    You haven’t booked any study room yet.
+                  </p>
+                </div>
               </div>
-            </div>
-          </Surface>
+            </Surface>
+          </motion.div>
         ) : (
           <>
             {/* desktop table */}
-            <div className="hidden lg:block">
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="hidden lg:block"
+            >
               <Surface className="rounded-3xl border border-default-200 overflow-hidden">
                 <Table variant="secondary">
                   <Table.ScrollContainer>
                     <Table.Content
                       aria-label="Bookings table"
-                      className="min-w-225"
+                      className="min-w-[950px]"
                     >
                       <Table.Header>
                         <Table.Column isRowHeader>ROOM</Table.Column>
@@ -70,11 +75,19 @@ const MyBookingWrapper = ({ data }) => {
                       </Table.Header>
 
                       <Table.Body>
-                        {data?.map((booking) => (
+                        {data?.map((booking, index) => (
                           <Table.Row key={booking?._id}>
                             {/* room */}
                             <Table.Cell>
-                              <div className="flex items-center gap-3">
+                              <motion.div
+                                initial={{ opacity: 0, x: -15 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{
+                                  duration: 0.25,
+                                  delay: index * 0.05,
+                                }}
+                                className="flex items-center gap-3"
+                              >
                                 <div className="relative w-14 h-14 rounded-2xl overflow-hidden border border-default-200">
                                   <Image
                                     src={booking?.roomImage}
@@ -93,14 +106,21 @@ const MyBookingWrapper = ({ data }) => {
                                     Floor {booking?.floor}
                                   </p>
                                 </div>
-                              </div>
+                              </motion.div>
                             </Table.Cell>
 
                             {/* date */}
                             <Table.Cell>
-                              <span className="font-medium">
+                              <motion.span
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{
+                                  delay: index * 0.05 + 0.1,
+                                }}
+                                className="font-medium"
+                              >
                                 {booking?.date}
-                              </span>
+                              </motion.span>
                             </Table.Cell>
 
                             {/* time */}
@@ -112,9 +132,12 @@ const MyBookingWrapper = ({ data }) => {
 
                             {/* cost */}
                             <Table.Cell>
-                              <span className="font-black text-accent">
+                              <motion.span
+                                whileHover={{ scale: 1.05 }}
+                                className="font-black text-accent"
+                              >
                                 ${booking?.totalPrice}
-                              </span>
+                              </motion.span>
                             </Table.Cell>
 
                             {/* status */}
@@ -125,7 +148,7 @@ const MyBookingWrapper = ({ data }) => {
                                     ? "success"
                                     : "danger"
                                 }
-                                className="capitalize"
+                                className="capitalize font-medium"
                               >
                                 {booking?.status}
                               </Chip>
@@ -134,7 +157,7 @@ const MyBookingWrapper = ({ data }) => {
                             {/* action */}
                             <Table.Cell>
                               {booking?.status === "confirmed" ? (
-                               <CancelBooking data={booking} />
+                                <CancelBooking data={booking} />
                               ) : (
                                 <Button
                                   isDisabled
@@ -152,16 +175,19 @@ const MyBookingWrapper = ({ data }) => {
                   </Table.ScrollContainer>
                 </Table>
               </Surface>
-            </div>
+            </motion.div>
 
             {/* mobile + tablet cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:hidden">
-              {data?.map((booking) => (
+              {data?.map((booking, index) => (
                 <motion.div
                   key={booking?._id}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: index * 0.05,
+                  }}
                 >
                   <Surface className="rounded-3xl border border-default-200 p-5 h-full">
                     {/* top */}
@@ -201,18 +227,22 @@ const MyBookingWrapper = ({ data }) => {
                     <div className="grid grid-cols-2 gap-4 mt-6">
                       <div className="bg-default-100 rounded-2xl p-3">
                         <p className="text-xs text-muted mb-1">Date</p>
+
                         <h4 className="font-bold">{booking?.date}</h4>
                       </div>
 
                       <div className="bg-default-100 rounded-2xl p-3">
                         <p className="text-xs text-muted mb-1">Time</p>
+
                         <h4 className="font-bold">
                           {booking?.start}:00 - {booking?.end}:00
                         </h4>
                       </div>
 
                       <div className="bg-default-100 rounded-2xl p-3 col-span-2">
-                        <p className="text-xs text-muted mb-1">Total Cost</p>
+                        <p className="text-xs text-muted mb-1">
+                          Total Cost
+                        </p>
 
                         <h4 className="text-accent text-2xl font-black tracking-tight">
                           ${booking?.totalPrice}
@@ -223,12 +253,7 @@ const MyBookingWrapper = ({ data }) => {
                     {/* action */}
                     <div className="mt-5">
                       {booking?.status === "confirmed" ? (
-                        <Button
-                          variant="danger"
-                          className="w-full rounded-2xl h-11 font-bold"
-                        >
-                          Cancel Booking
-                        </Button>
+                        <CancelBooking data={booking} />
                       ) : (
                         <Button
                           isDisabled
