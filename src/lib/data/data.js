@@ -32,3 +32,12 @@ export const getUserById = async (id) => {
   const data = await res.json();
   return data.data;
 };
+
+// get booking data
+
+export const getBookingData = async (id) => {
+  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/my-bookings/" + id);
+  
+  const data = await res.json();
+  return data.data;
+};

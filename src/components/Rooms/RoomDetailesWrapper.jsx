@@ -151,7 +151,7 @@ const RoomDetailesWrapper = ({ room }) => {
                   {/* book now  */}
 
                   {user ? (
-                    <BookingModal  room={room} />
+                    <BookingModal user={user}  room={room} />
                   ) : (
                     <Link
                       href={"/logim"}

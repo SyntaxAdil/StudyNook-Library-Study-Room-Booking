@@ -19,9 +19,9 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { BiInfoCircle } from "react-icons/bi";
 
-export function BookingModal({ room }) {
+export function BookingModal({ room, user }) {
   const [isOpen, setIsOpen] = useState(false);
-  const router=useRouter()
+  const router = useRouter();
   const [timeStart, setTimeStart] = useState("9");
   const [timeEnd, setTimeEnd] = useState("10");
   const roomHour = room.hourlyRate;
@@ -58,42 +58,70 @@ export function BookingModal({ room }) {
     e.preventDefault();
 
     // validation
-    if (!timeStart || !timeEnd) {
-      return toast.error("Please select booking time");
+
+    try {
+      if (!timeStart || !timeEnd) {
+        return toast.error("Please select booking time");
+      }
+
+      if (Number(timeEnd) <= Number(timeStart)) {
+        return toast.error("End time must be greater than start time");
+      }
+
+      if (totalPrice <= 0) {
+        return toast.error("Invalid booking duration");
+      }
+
+      const formdata = new FormData(e.target);
+
+      const newBooking = Object.fromEntries(formdata.entries());
+
+      const today = new Date();
+
+      today.setHours(0, 0, 0, 0);
+
+      const bookingDate = new Date(newBooking.date);
+
+      if (bookingDate < today) {
+        return toast.error("Select a valid date");
+      }
+
+      // extra booking data
+      newBooking.roomId = room?._id;
+      newBooking.roomName = room?.roomName;
+      newBooking.roomImage = room?.imageUrl;
+      newBooking.hourlyRate = room?.hourlyRate;
+      newBooking.bookedBy = user?.id;
+
+      newBooking.start = Number(timeStart);
+      newBooking.end = Number(timeEnd);
+
+      newBooking.totalPrice = totalPrice;
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/book-room`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newBooking),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Booking room successfully");
+
+        router.push("/my-bookings");
+      } else {
+        toast.error(data?.message || "Booking failed");
+      }
+    } catch (error) {
+      toast.error("Booking room failed");
+      console.log(error);
+    } finally {
+      setIsOpen(false);
     }
-
-    if (Number(timeEnd) <= Number(timeStart)) {
-      return toast.error("End time must be greater than start time");
-    }
-
-    if (totalPrice <= 0) {
-      return toast.error("Invalid booking duration");
-    }
-
-    const formdata = new FormData(e.target);
-
-    const newBooking = Object.fromEntries(formdata.entries());
-
-    // extra booking data
-    newBooking.roomId = room?._id;
-    newBooking.roomName = room?.roomName;
-    newBooking.roomImage = room?.imageUrl;
-    newBooking.hourlyRate = room?.hourlyRate;
-
-    newBooking.start = timeStart;
-    newBooking.end = timeEnd;
-
-    newBooking.totalPrice = totalPrice;
-
-    console.log(newBooking);
-
-    // success demo
-    toast.success("Booking validated successfully");
-    setIsOpen(false)
-    router.push("/my-bookings")
   };
   return (
-    <Modal isOpen={isOpen} onOpenChange={setIsOpen} >
+    <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
       <Button className="w-full h-14 bg-accent text-accent-foreground font-black text-base rounded-2xl shadow-lg shadow-accent/20 hover:opacity-95 active:scale-[0.98] transition-all">
         Book This Space
       </Button>
@@ -164,8 +192,8 @@ export function BookingModal({ room }) {
                     <Select
                       isRequired
                       name="start"
-                      selectedKey={timeStart}
-                      onSelectionChange={(key) => setTimeStart(key)}
+                      value={timeStart}
+                      onChange={setTimeStart}
                       className="w-full"
                     >
                       <Label>Start</Label>
@@ -195,8 +223,8 @@ export function BookingModal({ room }) {
                     <Select
                       isRequired
                       name="end"
-                      selectedKey={timeEnd}
-                      onSelectionChange={(key) => setTimeEnd(key)}
+                      value={timeEnd}
+                      onChange={setTimeEnd}
                       isInvalid={Number(timeEnd) <= Number(timeStart)}
                       errorMessage={
                         Number(timeEnd) <= Number(timeStart)
