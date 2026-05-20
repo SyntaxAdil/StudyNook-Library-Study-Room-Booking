@@ -11,11 +11,12 @@ import { authClient, useSession } from "../../lib/auth/auth-client";
 import { useRouter } from "next/navigation";
 import NavLink from "./NavLink";
 import { ThemeSwitch } from "../../hooks/useTheme";
+import { NavbarSkeleton } from "./NavbarSkeleton";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, isPending } = useSession();
   const user = session?.user;
 
   const { scrollY } = useScroll();
@@ -44,6 +45,10 @@ const Navbar = () => {
       : []),
   ];
 
+  if (isPending) {
+    return <NavbarSkeleton />;
+  }
+
   return (
     <header>
       <motion.nav
@@ -68,7 +73,7 @@ const Navbar = () => {
             <li key={l.href}>
               <NavLink
                 href={l.href}
-                className="text-sm font-medium  hover:text-accent transition-colors"
+                className="text-sm font-medium hover:text-accent transition-colors"
               >
                 {l.label}
               </NavLink>
@@ -84,10 +89,14 @@ const Navbar = () => {
           {user ? (
             <Dropdown>
               <Dropdown.Trigger className="rounded-full">
-                <Avatar>
+                <Avatar className="cursor-pointer">
                   <Avatar.Image alt={user?.name} src={user?.image} />
-
-                  <Avatar.Fallback>{user?.name.split(" ").slice(0,2).map(i=>i[0].toUpperCase())}</Avatar.Fallback>
+                  <Avatar.Fallback>
+                    {user?.name
+                      ?.split(" ")
+                      ?.slice(0, 2)
+                      ?.map((i) => i[0].toUpperCase())}
+                  </Avatar.Fallback>
                 </Avatar>
               </Dropdown.Trigger>
 
@@ -96,32 +105,45 @@ const Navbar = () => {
                   <div className="flex items-center gap-2">
                     <Avatar size="sm">
                       <Avatar.Image alt={user?.name} src={user?.image} />
-
-                      <Avatar.Fallback>{user?.name.split(" ").slice(0,2).map(i=>i[0].toUpperCase())}</Avatar.Fallback>
+                      <Avatar.Fallback>
+                        {user?.name
+                          ?.split(" ")
+                          ?.slice(0, 2)
+                          ?.map((i) => i[0].toUpperCase())}
+                      </Avatar.Fallback>
                     </Avatar>
 
                     <div className="flex flex-col gap-0">
                       <p className="text-sm leading-5 font-medium">
                         {user?.name}
                       </p>
-
                       <p className="text-xs leading-none text-muted">
                         {user?.email}
                       </p>
                     </div>
                   </div>
                 </div>
-
                 <Dropdown.Menu>
+                  <Dropdown.Item key="my-listing" textValue="My Listing">
+                    <Link href="/my-listing" className="w-full block">
+                      <Label>My Listing</Label>
+                    </Link>
+                  </Dropdown.Item>
+
+                  <Dropdown.Item key="my-bookings" textValue="My Bookings">
+                    <Link href="/my-bookings" className="w-full block">
+                      <Label>My Bookings</Label>
+                    </Link>
+                  </Dropdown.Item>
+
                   <Dropdown.Item
-                    id="logout"
+                    key="logout"
                     textValue="Logout"
-                    variant="danger"
+                    color="danger"
                     onClick={handleSignOut}
                   >
                     <div className="flex w-full items-center justify-between gap-2">
                       <Label>Log Out</Label>
-
                       <FaArrowUpRightFromSquare className="size-3.5 text-danger" />
                     </div>
                   </Dropdown.Item>
