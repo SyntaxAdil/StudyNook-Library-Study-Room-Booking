@@ -45,10 +45,6 @@ const Navbar = () => {
       : []),
   ];
 
-  if (isPending) {
-    return <NavbarSkeleton />;
-  }
-
   return (
     <header>
       <motion.nav
@@ -86,7 +82,10 @@ const Navbar = () => {
             <ThemeSwitch />
           </div>
 
-          {user ? (
+          {/* শুধু এই কন্ডিশনাল পার্টটুকু লোডিং হ্যান্ডেল করবে, পুরো নেভবার না */}
+          {isPending ? (
+            <NavbarSkeleton />
+          ) : user ? (
             <Dropdown>
               <Dropdown.Trigger className="rounded-full">
                 <Avatar className="cursor-pointer">
@@ -207,7 +206,7 @@ const Navbar = () => {
               </li>
             ))}
 
-            {!user && (
+            {!isPending && !user && (
               <div className="flex flex-col gap-4 mt-8">
                 <Link href={"/register"}>
                   <Button

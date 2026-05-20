@@ -15,7 +15,7 @@ export const getFeauturedRooms = async () => {
     cache: "no-store",
   });
   const data = await res.json();
-  console.log(data, "data");
+
   return data.data;
 };
 // by id
