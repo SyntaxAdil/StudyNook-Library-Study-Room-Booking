@@ -24,7 +24,7 @@ const Workflow = () => {
           transition={{ duration: 0.5 }}
         >
           <div className="max-w-md">
-            <h2 className="text-5xl font-black mb-6 text-foreground italic tracking-tight">
+            <h2 className="text-5xl font-black mb-6 text-foreground  tracking-tight">
               How It Works
             </h2>
             <p className="text-muted leading-relaxed">
