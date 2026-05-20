@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { BiInfoCircle } from "react-icons/bi";
+import { authClient } from "../../lib/auth/auth-client";
 
 export function BookingModal({ room, user }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,6 +61,7 @@ export function BookingModal({ room, user }) {
     // validation
 
     try {
+
       if (!timeStart || !timeEnd) {
         return toast.error("Please select booking time");
       }
@@ -97,11 +99,12 @@ export function BookingModal({ room, user }) {
       newBooking.end = Number(timeEnd);
 
       newBooking.totalPrice = totalPrice;
-
+      const { data: tokenData } = await authClient.token();
       const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/book-room`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
         },
         body: JSON.stringify(newBooking),
       });

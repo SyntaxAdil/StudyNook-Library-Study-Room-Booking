@@ -21,6 +21,7 @@ import { FiLoader, FiSave } from "react-icons/fi";
 
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { authClient } from "../../lib/auth/auth-client";
 
 export function EditRoom({ room }) {
   const router = useRouter();
@@ -77,13 +78,19 @@ export function EditRoom({ room }) {
     setIsPending(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/rooms/${room?._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+      const { data: tokenData } = await authClient.token();
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/rooms/${room?._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${tokenData?.token}`,
+          },
+
+          body: JSON.stringify(updatedRoom),
         },
-        body: JSON.stringify(updatedRoom),
-      });
+      );
 
       const data = await res.json();
 
@@ -271,7 +278,6 @@ export function EditRoom({ room }) {
                               </Checkbox>
                             ))}
                           </CheckboxGroup>
-                          
                         </div>
                       </div>
 

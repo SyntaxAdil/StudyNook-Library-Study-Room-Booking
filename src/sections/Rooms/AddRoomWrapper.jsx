@@ -16,7 +16,7 @@ import { FiLoader, FiPlusCircle } from "react-icons/fi";
 
 import { useRouter } from "next/navigation";
 import Wrapper from "../../components/shared/Wrapper";
-import { useSession } from "../../lib/auth/auth-client";
+import { authClient, useSession } from "../../lib/auth/auth-client";
 
 const AddRoomWrapper = () => {
   const [isPending, setIsPending] = useState(false);
@@ -39,10 +39,12 @@ const AddRoomWrapper = () => {
 
     setIsPending(true);
     try {
+const { data: tokenData } = await authClient.token();
       const res = await fetch(process.env.NEXT_PUBLIC_URL + "/rooms", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${tokenData?.token}`,
         },
         body: JSON.stringify(roomData),
       });

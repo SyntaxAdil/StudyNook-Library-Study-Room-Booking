@@ -6,6 +6,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { BiTrash } from "react-icons/bi";
 import { FiLoader } from "react-icons/fi";
+import { authClient } from "../../lib/auth/auth-client";
 
 export function DeleteRoom({ room }) {
   const router = useRouter();
@@ -15,13 +16,18 @@ export function DeleteRoom({ room }) {
     setIsDeleting(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/rooms/${room?._id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+      const { data: tokenData } = await authClient.token();
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/rooms/${room?._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${tokenData?.token}`,
+          },
+          body: JSON.stringify({ _id: room._id }),
         },
-        body: JSON.stringify({ _id: room._id }),
-      });
+      );
 
       const data = await res.json();
 

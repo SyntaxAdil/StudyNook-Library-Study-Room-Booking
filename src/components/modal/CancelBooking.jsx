@@ -6,6 +6,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { BiTrash } from "react-icons/bi";
 import { FiLoader } from "react-icons/fi";
+import { authClient } from "../../lib/auth/auth-client";
 
 export function CancelBooking({ data }) {
   const router = useRouter();
@@ -16,13 +17,17 @@ export function CancelBooking({ data }) {
     setIsDeleting(true);
 
     try {
+      const { data: tokenData } = await authClient.token();
+      
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/book-room/${data._id}/cancel`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${tokenData?.token}`,
           },
+
           body: JSON.stringify({
             bookedBy: data.bookedBy,
             roomId: data.roomId,
