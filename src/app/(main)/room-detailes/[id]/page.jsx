@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
 
 
   return {
-    title: room?.roomName || "Room Details",
+    title: room?.roomName + "- StudyNook" || "Room Details - StudyNook",
   };
 }
 

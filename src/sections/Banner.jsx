@@ -74,22 +74,7 @@ const HeroBanner = () => {
               </Link>
             </div>
 
-            {/* Stats/Trust Badges */}
-            <div className="mt-12 flex items-center gap-8 border-t border-border pt-8">
-              <div>
-                <p className="text-2xl font-bold text-foreground">50+</p>
-                <p className="text-xs text-muted uppercase tracking-tighter">
-                  Active Rooms
-                </p>
-              </div>
-              <div className="w-px h-10 bg-border" />
-              <div>
-                <p className="text-2xl font-bold text-foreground">1.2k</p>
-                <p className="text-xs text-muted uppercase tracking-tighter">
-                  Happy Users
-                </p>
-              </div>
-            </div>
+           
           </motion.div>
 
           {/* Right Image Section */}
