@@ -3,7 +3,9 @@ import { getListingRooms } from "../../../lib/data/data";
 import MyListingWrapper from "../../../sections/Rooms/MyListingWrapper";
 import { auth } from "../../../lib/auth/auth";
 import { headers } from "next/headers";
-
+export const metadata = {
+  title: "My Listing - StudyNook",
+};
 const MyListing = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),

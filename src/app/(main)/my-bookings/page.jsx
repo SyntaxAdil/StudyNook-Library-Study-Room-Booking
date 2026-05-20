@@ -4,7 +4,9 @@ import { auth } from "../../../lib/auth/auth";
 import MyBookingWrapper from "../../../components/Rooms/MyBookingWrapper";
 import { getBookingData } from "../../../lib/data/data";
 
-
+export const metadata = {
+  title: "My Bookings - StudyNook",
+};
 const MyBookings = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
