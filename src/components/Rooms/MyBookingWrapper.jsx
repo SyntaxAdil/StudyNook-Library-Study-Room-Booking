@@ -5,7 +5,8 @@ import { motion } from "motion/react";
 import { Chip, Table, Button, Surface } from "@heroui/react";
 import Image from "next/image";
 import { CancelBooking } from "../modal/CancelBooking";
-
+import CustomEmpty from "../shared/CustomEmty";
+import { TbCalendarCancel } from "react-icons/tb";
 const MyBookingWrapper = ({ data }) => {
   return (
     <div className="py-8 ">
@@ -28,27 +29,12 @@ const MyBookingWrapper = ({ data }) => {
 
         {/* empty state */}
         {data?.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Surface className="rounded-3xl border border-default-200 p-10 text-center">
-              <div className="flex flex-col items-center justify-center gap-4">
-                <div className="size-16 rounded-full bg-default-100 flex items-center justify-center text-3xl">
-                  📚
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-bold">No bookings yet</h3>
-
-                  <p className="text-muted mt-1">
-                    You haven’t booked any study room yet.
-                  </p>
-                </div>
-              </div>
-            </Surface>
-          </motion.div>
+          <CustomEmpty
+            icon={TbCalendarCancel}
+            header="You have no bookings yet."
+            subtitle="Find a quiet space and reserve your first study session."
+            href="/rooms"
+          />
         ) : (
           <>
             {/* desktop table */}
@@ -240,9 +226,7 @@ const MyBookingWrapper = ({ data }) => {
                       </div>
 
                       <div className="bg-default-100 rounded-2xl p-3 col-span-2">
-                        <p className="text-xs text-muted mb-1">
-                          Total Cost
-                        </p>
+                        <p className="text-xs text-muted mb-1">Total Cost</p>
 
                         <h4 className="text-accent text-2xl font-black tracking-tight">
                           ${booking?.totalPrice}

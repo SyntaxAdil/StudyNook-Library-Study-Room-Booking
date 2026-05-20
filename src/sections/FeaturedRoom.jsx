@@ -5,16 +5,18 @@ import Wrapper from "../components/shared/Wrapper";
 import { FaArrowRight } from "react-icons/fa";
 import { motion } from "motion/react";
 import Link from "next/link";
-
+import CustomEmpty from "../components/shared/CustomEmty";
+import { LuSearchX } from "react-icons/lu";
 const FeaturedRoom = ({ feautredRooms }) => {
   return (
-    <Wrapper className="px-0" >
+    <Wrapper className="px-0">
       <motion.header
-      initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-      className="flex items-center justify-between my-16 flex-col md:flex-row gap-8">
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="flex items-center justify-between my-16 flex-col md:flex-row gap-8"
+      >
         <div className="px-2">
           <h2 className="text-4xl font-black mb-4 text-foreground  tracking-tight ">
             Available Study Rooms
@@ -38,10 +40,20 @@ const FeaturedRoom = ({ feautredRooms }) => {
         </Link>
       </motion.header>
 
-      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {feautredRooms.map((r) => (
-          <RoomCard room={r} key={r._id} />
-        ))}
+      <main>
+        {feautredRooms.length === 0 ? (
+          <CustomEmpty
+            icon={LuSearchX}
+            header="No rooms found"
+            subtitle="Try adjusting your search or removing a few filters."
+          />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {feautredRooms.map((r) => (
+              <RoomCard room={r} key={r._id} />
+            ))}
+          </div>
+        )}
       </main>
     </Wrapper>
   );

@@ -5,7 +5,8 @@ import RoomCard from "../../components/Rooms/RoomCard";
 import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
 import { BiPlus } from "react-icons/bi";
-
+import CustomEmpty from "../../components/shared/CustomEmty";
+import { MdPlaylistAddCheck } from "react-icons/md";
 const MyListingWrapper = ({ rooms }) => {
   return (
     <div>
@@ -40,11 +41,23 @@ const MyListingWrapper = ({ rooms }) => {
           </Link>
         </motion.header>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {rooms.map((room) => (
-            <RoomCard key={room._id} room={room} />
-          ))}
-        </div>
+        <>
+          {rooms.length === 0 ? (
+            <CustomEmpty
+              icon={MdPlaylistAddCheck}
+              header="No listings yet"
+              subtitle="Got a quiet room? List it and start earning."
+              href="/add-room"
+              buttonText="Create your first listing"
+            />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {rooms.map((room) => (
+                <RoomCard key={room._id} room={room} />
+              ))}
+            </div>
+          )}
+        </>
       </Wrapper>
     </div>
   );

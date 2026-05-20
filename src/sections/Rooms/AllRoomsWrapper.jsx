@@ -2,7 +2,8 @@
 import { motion } from "motion/react";
 import RoomCard from "../../components/Rooms/RoomCard";
 import RoomActionSidebar from "./../../components/Rooms/RoomActionSidebar";
-
+import CustomEmpty from "../../components/shared/CustomEmty";
+import { LuSearchX } from "react-icons/lu";
 const AllRoomsWrapper = ({ allRooms }) => {
   return (
     <div>
@@ -28,11 +29,19 @@ const AllRoomsWrapper = ({ allRooms }) => {
 
         {/* Rooms */}
         <div className="lg:col-span-9">
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-            {allRooms?.map((room) => (
-              <RoomCard key={room._id} room={room} />
-            ))}
-          </div>
+          {allRooms.length === 0 ? (
+            <CustomEmpty
+              icon={LuSearchX}
+              header="No rooms found"
+              subtitle="Try adjusting your search or removing a few filters."
+            />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              {allRooms?.map((room) => (
+                <RoomCard key={room._id} room={room} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

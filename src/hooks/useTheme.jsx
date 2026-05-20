@@ -30,7 +30,7 @@ export const ThemeSwitch = () => {
         {theme === "dark" ? (
           <FiMoon className="text-slate-200 text-lg" />
         ) : (
-          <LuSun  className="text-yellow-500 text-lg animate-pulse" />
+          <LuSun  className=" text-lg animate-pulse" />
         )}
       </div>
     </button>
