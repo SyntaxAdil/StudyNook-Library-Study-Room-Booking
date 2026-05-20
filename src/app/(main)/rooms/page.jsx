@@ -6,6 +6,7 @@ import AllRoomsWrapper from "../../../sections/Rooms/AllRoomsWrapper";
 const Rooms = async ({searchParams}) => {
   const sParams= await searchParams;
   const allRooms = await getAllRooms(sParams.search,sParams.amenities,sParams.max,sParams.min);
+  
   return (
     <div>
       <Wrapper>

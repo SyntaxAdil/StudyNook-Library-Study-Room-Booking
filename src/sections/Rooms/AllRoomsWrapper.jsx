@@ -36,7 +36,7 @@ const AllRoomsWrapper = ({ allRooms }) => {
               subtitle="Try adjusting your search or removing a few filters."
             />
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 items-stretch">
               {allRooms?.map((room) => (
                 <RoomCard key={room._id} room={room} />
               ))}

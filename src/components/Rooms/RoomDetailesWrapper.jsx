@@ -144,7 +144,7 @@ const RoomDetailesWrapper = ({ room }) => {
                     <div className="h-[1px] bg-border/40 w-full" />
                     <div className="flex items-center gap-3 text-sm font-semibold text-foreground/90">
                       <BiDollar className="text-lg text-accent" />
-                      <span>Total Bookings: 8 times</span>
+                      <span>Total Bookings: {room?.bookingCount || 0} times</span>
                     </div>
                   </div>
 

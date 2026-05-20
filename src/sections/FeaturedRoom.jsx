@@ -48,7 +48,7 @@ const FeaturedRoom = ({ feautredRooms }) => {
             subtitle="Try adjusting your search or removing a few filters."
           />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-stretch">
             {feautredRooms.map((r) => (
               <RoomCard room={r} key={r._id} />
             ))}

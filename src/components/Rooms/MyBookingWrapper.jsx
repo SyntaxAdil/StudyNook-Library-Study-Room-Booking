@@ -8,6 +8,7 @@ import { CancelBooking } from "../modal/CancelBooking";
 import CustomEmpty from "../shared/CustomEmty";
 import { TbCalendarCancel } from "react-icons/tb";
 const MyBookingWrapper = ({ data }) => {
+  
   return (
     <div className="py-8 ">
       <Wrapper>
