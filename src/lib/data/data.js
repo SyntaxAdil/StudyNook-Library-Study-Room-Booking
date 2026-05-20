@@ -39,7 +39,7 @@ export const getRoomsById = async (id) => {
 // get booking data
 
 export const getBookingData = async (id) => {
-  const {token} = await auth.api.getToken({
+  const { token } = await auth.api.getToken({
     headers: await headers(),
   });
 
@@ -60,11 +60,11 @@ export const getBookingData = async (id) => {
 // get listing data by user id
 
 export const getListingRooms = async (id) => {
-  const {token} = await auth.api.getToken({
+  const { token } = await auth.api.getToken({
     headers: await headers(),
   });
 
-  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/my-listing/" + id, {
+  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/my-listing", {
     headers: {
       authorization: `Bearer ${token}`,
     },
