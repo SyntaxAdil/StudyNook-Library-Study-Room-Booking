@@ -16,7 +16,7 @@ import { NavbarSkeleton } from "./NavbarSkeleton";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const { data: session, isPending } = useSession();
+  const { data: session, isPending,refetch  } = useSession();
   const user = session?.user;
 
   const { scrollY } = useScroll();
@@ -29,8 +29,9 @@ const Navbar = () => {
 
   const handleSignOut = async () => {
     await authClient.signOut();
+    // router.push("/login");
+    await refetch()
     router.refresh();
-    router.push("/login");
   };
 
   const NAV_LINKS = [
@@ -82,7 +83,6 @@ const Navbar = () => {
             <ThemeSwitch />
           </div>
 
-          {/* শুধু এই কন্ডিশনাল পার্টটুকু লোডিং হ্যান্ডেল করবে, পুরো নেভবার না */}
           {isPending ? (
             <NavbarSkeleton />
           ) : user ? (
