@@ -1,6 +1,5 @@
-"use server";
-import { headers } from "next/headers";
-import { auth } from "../auth/auth";
+
+
 
 // all rooms with search,filter,min max
 export const getAllRooms = async (search, amenities, max, min) => {
@@ -37,40 +36,3 @@ export const getRoomsById = async (id) => {
 //   return data.data;
 // };
 
-// get booking data
-
-export const getBookingData = async (id) => {
-  const { token } = await auth.api.getToken({
-    headers: await headers(),
-  });
-
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_URL + "/my-bookings",
-
-    {
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    },
-  );
-
-  const data = await res.json();
-  return data.data;
-};
-
-// get listing data by user id
-
-export const getListingRooms = async (id) => {
-  const { token } = await auth.api.getToken({
-    headers: await headers(),
-  });
-
-  const res = await fetch(process.env.NEXT_PUBLIC_URL + "/my-listing", {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
-
-  const data = await res.json();
-  return data.data;
-};
