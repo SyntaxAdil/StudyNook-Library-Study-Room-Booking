@@ -50,7 +50,7 @@ const AddRoomWrapper = () => {
       const data= await res.json()
 
       if(data.success){
-        router.push("/rooms")
+        router.push("/my-listing")
         toast.success("Room Published Successfully!");
       }
       e.target.reset();
