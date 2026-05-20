@@ -1,6 +1,3 @@
-
-
-
 // all rooms with search,filter,min max
 export const getAllRooms = async (search, amenities, max, min) => {
   const res = await fetch(
@@ -18,7 +15,6 @@ export const getFeauturedRooms = async () => {
     cache: "no-store",
   });
   const data = await res.json();
-
   return data.data;
 };
 // by id
