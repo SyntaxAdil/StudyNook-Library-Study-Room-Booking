@@ -19,8 +19,8 @@ const Footer = () => {
   const usefulLinks = [
     { name: "Home", href: "/" },
     { name: "Rooms", href: "/rooms" },
-    { name: "About Us", href: "/about" },
-    { name: "Contact", href: "/contact" },
+    { name: "About Us", href: "#" },
+    { name: "Contact", href: "#" },
   ];
 
   return (
@@ -49,6 +49,7 @@ const Footer = () => {
               {usefulLinks.map((link) => (
                 <li key={link.name}>
                   <Link 
+
                     href={link.href} 
                     className="text-muted hover:text-accent transition-colors text-sm"
                   >
