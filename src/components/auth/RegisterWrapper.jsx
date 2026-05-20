@@ -47,16 +47,22 @@ const RegisterWrapper = () => {
     }
   };
 
-  const handleGoogle = async () => {
-    try {
-      await signInGoogle();
-      toast.success("Register successful with Google");
-      setTimeout(() => router.push("/"), 1000);
-    } catch (error) {
-      toast.error("Register failed.");
-    }
+const handleGoogle = async () => {
+    await authClient.signIn.social(
+      {
+        provider: "google",
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          toast.success("Login successful with Google");
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message || "Login failed.");
+        },
+      },
+    );
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-background text-foreground px-4 py-10 transition-colors duration-500">
       <motion.div

@@ -19,7 +19,7 @@ import { FaBookReader } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa6";
 import { FiLoader } from "react-icons/fi";
 import { HiOutlineLogin } from "react-icons/hi";
-import { authClient,signInGoogle } from "../../lib/auth/auth-client";
+import { authClient, signInGoogle } from "../../lib/auth/auth-client";
 
 const LoginWrapper = () => {
   const router = useRouter();
@@ -41,7 +41,7 @@ const LoginWrapper = () => {
           onError: (ctx) => {
             toast.error(ctx.error.message || "Login Failed");
           },
-        }
+        },
       );
     } finally {
       setIsPending(false);
@@ -49,13 +49,20 @@ const LoginWrapper = () => {
   };
 
   const handleGoogle = async () => {
-    try {
-      await signInGoogle();
-      toast.success("Login successful with Google");
-      setTimeout(() => router.push("/"), 1000);
-    } catch (error) {
-      toast.error("Login failed.");
-    }
+    await authClient.signIn.social(
+      {
+        provider: "google",
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          toast.success("Login successful with Google");
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message || "Login failed.");
+        },
+      },
+    );
   };
 
   return (
@@ -69,14 +76,18 @@ const LoginWrapper = () => {
         <div className="bg-surface p-8 rounded-2xl shadow-surface-shadow border border-border backdrop-blur-md">
           {/* Logo & Header */}
           <div className="text-center mb-8">
-            <motion.div 
+            <motion.div
               whileHover={{ rotate: 5 }}
               className="inline-flex items-center justify-center w-14 h-14 bg-accent rounded-xl text-accent-foreground mb-4 shadow-lg"
             >
               <FaBookReader size={28} />
             </motion.div>
-            <h3 className="text-2xl font-bold tracking-tight">Login to StudyNook</h3>
-            <p className="text-muted text-sm mt-2">Welcome back. Pick up where you left off.</p>
+            <h3 className="text-2xl font-bold tracking-tight">
+              Login to StudyNook
+            </h3>
+            <p className="text-muted text-sm mt-2">
+              Welcome back. Pick up where you left off.
+            </p>
           </div>
 
           <Form className="flex flex-col gap-6" onSubmit={onSubmit}>
@@ -85,11 +96,17 @@ const LoginWrapper = () => {
               isRequired
               name="email"
               type="email"
-              validate={(v) => !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(v) ? "Invalid email" : null}
+              validate={(v) =>
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(v)
+                  ? "Invalid email"
+                  : null
+              }
             >
-              <Label className="text-sm font-semibold mb-1 block">Email Address</Label>
-              <Input 
-                placeholder="adil@example.com" 
+              <Label className="text-sm font-semibold mb-1 block">
+                Email Address
+              </Label>
+              <Input
+                placeholder="adil@example.com"
                 className="bg-field-background text-field-foreground border-field-border focus:ring-2 ring-focus"
               />
               <FieldError className="text-danger text-xs mt-1" />
@@ -101,11 +118,13 @@ const LoginWrapper = () => {
               minLength={8}
               name="password"
               type="password"
-              validate={(v) => v.length < 8 ? "Too short" : null}
+              validate={(v) => (v.length < 8 ? "Too short" : null)}
             >
-              <Label className="text-sm font-semibold mb-1 block">Password</Label>
-              <Input 
-                placeholder="••••••••" 
+              <Label className="text-sm font-semibold mb-1 block">
+                Password
+              </Label>
+              <Input
+                placeholder="••••••••"
                 className="bg-field-background text-field-foreground"
               />
               <Description className="text-[10px] text-muted leading-relaxed">
@@ -116,8 +135,8 @@ const LoginWrapper = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-4">
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full h-12 bg-accent text-accent-foreground font-bold rounded-[var(--radius)] shadow-md hover:opacity-90 transition-all"
                 isDisabled={isPending}
               >
@@ -133,7 +152,9 @@ const LoginWrapper = () => {
 
               <div className="flex items-center gap-3">
                 <Separator className="flex-1 bg-separator" />
-                <span className="text-[10px] font-black text-muted uppercase tracking-tighter">OR</span>
+                <span className="text-[10px] font-black text-muted uppercase tracking-tighter">
+                  OR
+                </span>
                 <Separator className="flex-1 bg-separator" />
               </div>
 
@@ -151,7 +172,10 @@ const LoginWrapper = () => {
             {/* Footer Link */}
             <p className="text-center text-sm text-muted mt-2">
               New here?{" "}
-              <Link className="font-bold text-link hover:underline underline-offset-4" href={"/register"}>
+              <Link
+                className="font-bold text-link hover:underline underline-offset-4"
+                href={"/register"}
+              >
                 Create an Account
               </Link>
             </p>
