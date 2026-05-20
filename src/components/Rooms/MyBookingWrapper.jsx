@@ -7,6 +7,7 @@ import Image from "next/image";
 import { CancelBooking } from "../modal/CancelBooking";
 import CustomEmpty from "../shared/CustomEmty";
 import { TbCalendarCancel } from "react-icons/tb";
+import Link from "next/link";
 const MyBookingWrapper = ({ data }) => {
   
   return (
@@ -85,9 +86,9 @@ const MyBookingWrapper = ({ data }) => {
                                 </div>
 
                                 <div>
-                                  <h4 className="font-bold leading-none">
+                                  <Link href={`/room-detailes/${booking?.roomId}`} className="font-bold leading-none hover:text-accent">
                                     {booking?.roomName}
-                                  </h4>
+                                  </Link>
 
                                   <p className="text-xs text-muted mt-1">
                                     Floor {booking?.floor}

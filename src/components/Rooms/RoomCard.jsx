@@ -52,7 +52,7 @@ const RoomCard = ({ room }) => {
           <div className="flex items-center gap-5 text-sm font-medium text-muted/80 bg-field-background/40 py-2.5 px-4 rounded-xl border border-border/30">
             <div className="flex items-center gap-2">
               <LuLayers className="text-base text-foreground/70" />
-              <span className="capitalize">{room?.floor}</span>
+              Floor <span className="capitalize">{room?.floor}</span>
             </div>
 
             <div className="w-px h-4 bg-border/60" />

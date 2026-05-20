@@ -46,6 +46,8 @@ const Navbar = () => {
       : []),
   ];
 
+  const initialUser= user?.name.trim()?.split(" ")?.slice(0,2)?.map(i=>i[0].toUpperCase())
+
   return (
     <header>
       <motion.nav
@@ -91,10 +93,7 @@ const Navbar = () => {
                 <Avatar className="cursor-pointer">
                   <Avatar.Image alt={user?.name} src={user?.image} />
                   <Avatar.Fallback>
-                    {user?.name
-                      ?.split(" ")
-                      ?.slice(0, 2)
-                      ?.map((i) => i[0].toUpperCase())}
+                    {initialUser}
                   </Avatar.Fallback>
                 </Avatar>
               </Dropdown.Trigger>
@@ -105,10 +104,7 @@ const Navbar = () => {
                     <Avatar size="sm">
                       <Avatar.Image alt={user?.name} src={user?.image} />
                       <Avatar.Fallback>
-                        {user?.name
-                          ?.split(" ")
-                          ?.slice(0, 2)
-                          ?.map((i) => i[0].toUpperCase())}
+                        {initialUser}
                       </Avatar.Fallback>
                     </Avatar>
 
