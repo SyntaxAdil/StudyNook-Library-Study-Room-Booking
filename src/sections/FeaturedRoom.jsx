@@ -27,7 +27,7 @@ const FeaturedRoom = ({ feautredRooms }) => {
         </div>
         <Link
           href="/rooms"
-          className="group relative px-5  py-2 bg-accent text-accent-foreground font-bold rounded-xl overflow-hidden shadow-lg hover:shadow-accent/40 transition-all active:scale-95"
+          className="group relative px-5  py-2 bg-accent text-accent-foreground font-bold rounded-xl overflow-hidden shadow-lg hover:shadow-accent/40 transition-all active:scale-95 hidden md:block"
         >
           <div className="flex items-center gap-2">
             <span className="relative z-10">View All Rooms</span>
@@ -55,6 +55,19 @@ const FeaturedRoom = ({ feautredRooms }) => {
           </div>
         )}
       </main>
+        <Link
+          href="/rooms"
+          className="group relative px-5  py-2 bg-accent text-accent-foreground font-bold rounded-xl overflow-hidden shadow-lg hover:shadow-accent/40 transition-all active:scale-95 block w-fit mx-auto mt-8  md:hidden"
+        >
+           <div className="flex items-center gap-2">
+            <span className="relative z-10">View All Rooms</span>
+
+            <span className="group-hover:translate-x-1 duration-200 transition-transform">
+              <FaArrowRight></FaArrowRight>
+            </span>
+          </div>
+          <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+        </Link>
     </Wrapper>
   );
 };

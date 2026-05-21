@@ -28,13 +28,11 @@ const CustomEmpty = ({ icon: Icon, header, subtitle, href, buttonText }) => {
       </p>
 
       {href && buttonText && (
-        <Button
-          as={Link}
-          href={href}
-          className="h-11 px-6 bg-accent text-accent-foreground font-semibold text-sm rounded-xl shadow-md hover:opacity-95 transition-all"
-        >
-          {buttonText}
-        </Button>
+        <Link href={href}>
+          <Button className="h-11 px-6 bg-accent text-accent-foreground font-semibold text-sm rounded-xl shadow-md hover:opacity-95 transition-all">
+            {buttonText}
+          </Button>
+        </Link>
       )}
     </motion.div>
   );

@@ -33,7 +33,7 @@ const Workflow = () => {
           </div>
          <Link
           href="/rooms"
-          className="group relative px-5 py-2 bg-accent text-accent-foreground font-bold rounded-xl overflow-hidden shadow-lg hover:shadow-accent/40 transition-all active:scale-95"
+          className="group relative px-5 py-2 bg-accent text-accent-foreground font-bold rounded-xl overflow-hidden shadow-lg hover:shadow-accent/40 transition-all active:scale-95 hidden md:block"
         >
           <div className="flex items-center gap-2">
             <span className="relative z-10">Start Browsing</span>
@@ -67,7 +67,16 @@ const Workflow = () => {
           ))}
         </div>
       </section>
-
+    <Link
+          href="/rooms"
+          className="group relative px-5 py-2 bg-accent text-accent-foreground font-bold rounded-xl overflow-hidden shadow-lg hover:shadow-accent/40 transition-all active:scale-95 block md:hidden mx-auto mt-12 w-fit"
+        >
+          <div className="flex items-center gap-2">
+            <span className="relative z-10">Start Browsing</span>
+          <span className="group-hover:translate-x-1 duration-200 transition-transform"><FaArrowRight></FaArrowRight></span>
+          </div>
+          <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+        </Link>
       <section className="container mx-auto px-6 pt-32">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {[
@@ -112,6 +121,8 @@ const Workflow = () => {
             </motion.div>
           ))}
         </div>
+
+      
       </section>
     </div>
   );

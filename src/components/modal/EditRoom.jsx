@@ -13,7 +13,6 @@ import {
   Label,
   Modal,
   Surface,
-  TextField,
 } from "@heroui/react";
 
 import { BiEdit } from "react-icons/bi";
@@ -37,12 +36,10 @@ export function EditRoom({ room }) {
     hourlyRate: room?.hourlyRate?.toString() || "",
   });
 
-  // default amenities
   const [selectedAmenities, setSelectedAmenities] = useState(
     room?.amenities || [],
   );
 
-  // amenities list
   const amenitiesList = [
     { id: "whiteboard", label: "Whiteboard" },
     { id: "projector", label: "Projector" },
@@ -52,7 +49,6 @@ export function EditRoom({ room }) {
     { id: "ac", label: "Air Conditioning" },
   ];
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -61,7 +57,6 @@ export function EditRoom({ room }) {
     }));
   };
 
-  // update room
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -79,6 +74,7 @@ export function EditRoom({ room }) {
 
     try {
       const { data: tokenData } = await authClient.token();
+
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_URL}/rooms/${room?._id}`,
         {
@@ -112,7 +108,6 @@ export function EditRoom({ room }) {
 
   return (
     <Modal isOpen={isOpen} onOpenChange={setIsOpen}>
-      {/* trigger button */}
       <Button
         variant="ghost"
         className="rounded-full border border-default-200 px-5 hover:bg-default-100 transition-all"
@@ -127,8 +122,7 @@ export function EditRoom({ room }) {
             <Modal.CloseTrigger />
 
             <Modal.Body className="p-0">
-              <div className="grid lg:grid-cols-2 min-h-[650px]">
-                {/* left side image */}
+              <div className="grid lg:grid-cols-2 min-h-[650px] w-full">
                 <div className="hidden lg:block relative overflow-hidden">
                   <Image
                     src={room?.imageUrl}
@@ -138,10 +132,8 @@ export function EditRoom({ room }) {
                     className="object-cover h-100"
                   />
 
-                  {/* overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 
-                  {/* text */}
                   <div className="absolute bottom-10 left-8 z-10 text-white">
                     <h2 className="text-4xl font-black leading-tight">
                       {room?.roomName}
@@ -154,9 +146,7 @@ export function EditRoom({ room }) {
                   </div>
                 </div>
 
-                {/* form section */}
-                <div className="overflow-y-auto max-h-[90vh] p-6 md:p-8">
-                  {/* heading mobile */}
+                <div className="overflow-y-auto max-h-[90vh] p-4 sm:p-6 md:p-8 w-full">
                   <div className="lg:hidden mb-6">
                     <h2 className="text-3xl font-black">Edit Room</h2>
 
@@ -167,17 +157,17 @@ export function EditRoom({ room }) {
 
                   <Surface
                     variant="default"
-                    className="border border-border rounded-3xl p-5"
+                    className="border border-border rounded-3xl p-4 sm:p-5 w-full"
                   >
                     <Form
                       onSubmit={handleUpdate}
-                      className="grid grid-cols-1 gap-5"
+                      className="grid grid-cols-1 gap-5 w-full"
                     >
-                      {/* room name */}
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 w-full">
                         <Label>Room Name</Label>
 
                         <Input
+                          className="w-full"
                           name="roomName"
                           value={formData.roomName}
                           onChange={handleInputChange}
@@ -185,11 +175,11 @@ export function EditRoom({ room }) {
                         />
                       </div>
 
-                      {/* description */}
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 w-full">
                         <Label>Description</Label>
 
                         <Input
+                          className="w-full"
                           name="description"
                           value={formData.description}
                           onChange={handleInputChange}
@@ -197,11 +187,11 @@ export function EditRoom({ room }) {
                         />
                       </div>
 
-                      {/* image url */}
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 w-full">
                         <Label>Image URL</Label>
 
                         <Input
+                          className="w-full"
                           name="imageUrl"
                           value={formData.imageUrl}
                           onChange={handleInputChange}
@@ -209,26 +199,25 @@ export function EditRoom({ room }) {
                         />
                       </div>
 
-                      {/* grid fields */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {/* floor */}
-                        <div className="flex flex-col gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
+                        <div className="flex flex-col gap-2 w-full">
                           <Label>Floor</Label>
 
                           <Input
+                            className="w-full"
                             name="floor"
                             type="number"
                             value={formData.floor}
                             onChange={handleInputChange}
-                            placeholder="Floor"
+                            placeholder="e.g. 1"
                           />
                         </div>
 
-                        {/* capacity */}
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 w-full">
                           <Label>Capacity</Label>
 
                           <Input
+                            className="w-full"
                             name="capacity"
                             type="number"
                             value={formData.capacity}
@@ -237,11 +226,11 @@ export function EditRoom({ room }) {
                           />
                         </div>
 
-                        {/* hourly rate */}
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 w-full">
                           <Label>Hourly Rate</Label>
 
                           <Input
+                            className="w-full"
                             name="hourlyRate"
                             type="number"
                             value={formData.hourlyRate}
@@ -250,26 +239,28 @@ export function EditRoom({ room }) {
                           />
                         </div>
 
-                        <div className="flex flex-col gap-2 col-span-3 ">
+                        <div className="flex flex-col gap-2 col-span-1 sm:col-span-3 w-full">
                           <Label className="text-sm font-semibold mb-1">
                             Amenities
                           </Label>
+
                           <CheckboxGroup
                             orientation="horizontal"
                             value={selectedAmenities}
                             onChange={setSelectedAmenities}
-                            className="grid grid-cols-2 md:grid-cols-2 gap-2 "
+                            className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full"
                           >
                             {amenitiesList.map((item) => (
                               <Checkbox
                                 key={item.id}
                                 value={item.id}
                                 color="primary"
-                                className=" m-0 p-4 bg-field-background border border-border rounded-xl flex items-center gap-3 data-[selected=true]:border-primary hover:bg-default-100 transition-colors cursor-pointer "
+                                className="w-full m-0 p-3 sm:p-4 bg-field-background border border-border rounded-xl flex items-center gap-3 data-[selected=true]:border-primary hover:bg-default-100 transition-colors cursor-pointer"
                               >
                                 <Checkbox.Control>
                                   <Checkbox.Indicator />
                                 </Checkbox.Control>
+
                                 <Checkbox.Content>
                                   <Label className="text-foreground font-medium text-sm cursor-pointer">
                                     {item.label}
@@ -281,11 +272,10 @@ export function EditRoom({ room }) {
                         </div>
                       </div>
 
-                      {/* Submit Button */}
                       <Button
                         type="submit"
                         disabled={isPending}
-                        className="mt-4"
+                        className="mt-4 w-full sm:w-auto"
                       >
                         {isPending ? (
                           <>

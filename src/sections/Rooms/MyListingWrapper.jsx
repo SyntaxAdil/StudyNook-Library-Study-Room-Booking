@@ -15,7 +15,7 @@ const MyListingWrapper = ({ rooms }) => {
         <motion.header
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="mb-10 text-center md:text-left flex items-center justify-between "
+          className="mb-10 text-center md:text-left flex items-center justify-between flex-col gap-4 md:flex-row "
         >
           <div>
             {" "}

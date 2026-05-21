@@ -193,12 +193,12 @@ const Navbar = () => {
           <ul className="flex flex-col gap-6">
             {NAV_LINKS.map((l) => (
               <li key={l.href} onClick={() => setIsOpen(false)}>
-                <Link
+                <NavLink
                   href={l.href}
-                  className="text-2xl font-bold text-foreground hover:text-accent transition-colors"
+                  className="text-2xl! font-bold  hover:text-accent transition-colors"
                 >
                   {l.label}
-                </Link>
+                </NavLink>
               </li>
             ))}
 

@@ -169,7 +169,7 @@ const { data: tokenData } = await authClient.token();
                 >
                   <Label className="text-sm font-semibold mb-1">Floor</Label>
                   <Input
-                    placeholder="e.g. 3rd Floor"
+                    placeholder="e.g. 1"
                     className="bg-field-background"
                   />
                 </TextField>
