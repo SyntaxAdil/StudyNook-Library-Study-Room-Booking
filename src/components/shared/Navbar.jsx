@@ -49,14 +49,14 @@ const Navbar = () => {
   const initialUser= user?.name.trim()?.split(" ")?.slice(0,2)?.map(i=>i[0].toUpperCase())
 
   return (
-    <header>
+    <header className="" >
       <motion.nav
         style={{
           backgroundColor,
           backdropFilter: "blur(12px)",
           borderBottomColor: "var(--border)",
         }}
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 border-b transition-colors duration-500"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4  transition-colors duration-500 container mx-auto "
       >
         <Link href="/" className="group flex items-center gap-3">
           <div className="relative flex items-center justify-center w-10 h-10 bg-accent rounded-xl shadow-lg group-hover:rotate-12 transition-transform duration-300">
